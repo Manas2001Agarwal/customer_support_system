@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: e-commerce-bot
+Version: 0.0.1
+Author: Manas Agarwal
+Author-email: manasmrt10@gmail.com
+Requires-Dist: langchain
+Requires-Dist: langchain_astradb
