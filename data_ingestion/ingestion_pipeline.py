@@ -29,7 +29,7 @@ class DataIngestion:
         """
         load_dotenv()
         
-        required_vars = ["GOOGLE_API_KEY", "ASTRA_DB_API_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]
+        required_vars = ["HF_TOKEN","GOOGLE_API_KEY", "ASTRA_DB_API_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]
         
         missing_vars = [var for var in required_vars if os.getenv(var) is None]
         if missing_vars:
@@ -39,6 +39,7 @@ class DataIngestion:
         self.db_api_endpoint = os.getenv("ASTRA_DB_API_ENDPOINT")
         self.db_application_token = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
         self.db_keyspace = os.getenv("ASTRA_DB_KEYSPACE")
+        self.hf_token = os.getenv("HF_TOKEN")
 
        
 

@@ -1,90 +1,149 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flipkart Product Assistant</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='style.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
 </head>
-
 <body>
-    <div class="container-fluid h-100">
-        <div class="row justify-content-center h-100">
-            <div class="col-md-8 col-xl-6 chat">
-                <div class="card">
-                    <div class="card-header msg_head">
-                        <div class="d-flex bd-highlight">
-                            <div class="img_cont">
-                                <img src="https://static.vecteezy.com/system/resources/previews/016/017/018/non_2x/ecommerce-icon-free-png.png" class="rounded-circle user_img">
-                                <span class="online_icon"></span>
-                            </div>
-                            <div class="user_info">
-                                <span>Flipkart Product Assistant</span>
-                                <p>Ask me anything about products!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="messageFormeight" class="card-body msg_card_body"></div>
-                    <div class="card-footer">
-                        <form id="messageArea" class="input-group">
-                            <input type="text" id="text" name="msg" placeholder="Type your message..." autocomplete="off" class="form-control type_msg" required>
-                            <div class="input-group-append">
-                                <button type="submit" id="send" class="input-group-text send_btn"><i class="fas fa-paper-plane"></i></button>
-                            </div>
-                        </form>
-                    </div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="bot-avatar">
+                <div class="avatar-circle">🤖</div>
+            </div>
+            <div class="bot-info">
+                <h2>Product Assistant</h2>
+                <span class="status online">Online</span>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome message -->
+            <div class="message bot">
+                <div class="message-content">
+                    <p>Hello! I'm your product assistant. How can I help you find the right product today?</p>
                 </div>
             </div>
         </div>
+        
+        <div class="chat-input-container">
+            <form method="POST" action="/chat" class="chat-form" onsubmit="handleSubmit(event)">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        name="msg" 
+                        placeholder="Ask me about products..." 
+                        class="chat-input"
+                        required
+                        autocomplete="off"
+                        id="messageInput"
+                    >
+                    <button type="submit" class="send-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Loading indicator -->
+    <div class="loading-indicator" id="loading" style="display: none;">
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="loading-text">Thinking...</span>
     </div>
 
     <script>
-    $(document).ready(function() {
-        $("#messageArea").on("submit", function(event) {
-            const date = new Date();
-            const hour = date.getHours();
-            const minute = date.getMinutes();
-            const str_time = `${hour}:${minute}`;
-            var rawText = $("#text").val();
-
-            var userHtml = `
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">${rawText}
-                        <span class="msg_time_send">${str_time}</span>
-                    </div>
-                    <div class="img_cont_msg">
-                        <img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg">
-                    </div>
-                </div>`;
-            
-            $("#text").val("");
-            $("#messageFormeight").append(userHtml);
-
-            $.ajax({
-                data: { msg: rawText },
-                type: "POST",
-                url: "/get",
-            }).done(function(data) {
-                var botHtml = `
-                    <div class="d-flex justify-content-start mb-4">
-                        <div class="img_cont_msg">
-                            <img src="https://static.vecteezy.com/system/resources/previews/016/017/018/non_2x/ecommerce-icon-free-png.png" class="rounded-circle user_img_msg">
-                        </div>
-                        <div class="msg_cotainer">${data}
-                            <span class="msg_time">${str_time}</span>
-                        </div>
-                    </div>`;
-                $("#messageFormeight").append($.parseHTML(botHtml));
-                $("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
-            });
-
+        async function handleSubmit(event) {
             event.preventDefault();
+            
+            const form = event.target;
+            const messageInput = document.getElementById('messageInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const loading = document.getElementById('loading');
+            const userMessage = messageInput.value.trim();
+            
+            if (!userMessage) return;
+            
+            // Add user message to chat
+            addMessage(userMessage, 'user');
+            
+            // Clear input and show loading
+            messageInput.value = '';
+            loading.style.display = 'block';
+            
+            // Disable form during request
+            form.style.pointerEvents = 'none';
+            messageInput.disabled = true;
+            
+            try {
+                // Send request to FastAPI
+                const formData = new FormData();
+                formData.append('msg', userMessage);
+                
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const botResponse = await response.text();
+                    addMessage(botResponse, 'bot');
+                } else {
+                    addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            } finally {
+                // Hide loading and re-enable form
+                loading.style.display = 'none';
+                form.style.pointerEvents = 'auto';
+                messageInput.disabled = false;
+                messageInput.focus();
+            }
+        }
+        
+        function addMessage(content, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <p>${escapeHtml(content)}</p>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Focus input on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('messageInput').focus();
         });
-    });
+        
+        // Handle Enter key
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.querySelector('.chat-form').dispatchEvent(new Event('submit'));
+            }
+        });
     </script>
-
 </body>
 </html>

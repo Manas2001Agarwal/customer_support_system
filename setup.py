@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-setup(name="e-commerce-bot",
+setup(name="flipkart-product-assistant",
       version='0.0.1',
       author = "Manas Agarwal",
       author_email="manasmrt10@gmail.com",

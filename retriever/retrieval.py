@@ -19,7 +19,7 @@ class Retriever:
          
         load_dotenv()
          
-        required_vars = ["GOOGLE_API_KEY", "ASTRA_DB_API_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]
+        required_vars = ["HF_TOKEN","GOOGLE_API_KEY", "ASTRA_DB_API_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]
         
         missing_vars = [var for var in required_vars if os.getenv(var) is None]
         
@@ -30,6 +30,7 @@ class Retriever:
         self.db_api_endpoint = os.getenv("ASTRA_DB_API_ENDPOINT")
         self.db_application_token = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
         self.db_keyspace = os.getenv("ASTRA_DB_KEYSPACE")
+        self.hf_token = os.getenv("HF_TOKEN")
         
     def load_retriever(self):
         if not self.vstore:
@@ -50,7 +51,7 @@ class Retriever:
        
     def call_retriever(self,query:str)-> List[Document]:
         retriever=self.load_retriever()
-        output=retriever.invoke(query)
+        output=retriever.invoke(query) # type: ignore
         return output
         
     
