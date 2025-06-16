@@ -10,4 +10,4 @@ retriever:
 
 llm:
   provider: "groq"
-  model_name: "deepseek-r1-distill-llama-70b" 
+  model_name: "meta-llama/llama-4-scout-17b-16e-instruct" 
