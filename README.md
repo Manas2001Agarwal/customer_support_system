@@ -6,7 +6,6 @@ To automate and simply this process we built a RAG based customer support chatbo
 Any User that comes over the website will have a chatbot (powered by RAG based architecture running product information). He has to simply ask questions to that chatbot and go through bot concise-accurate bot response to have the best products based on user reviews and ratings.
 
 # RAG Architecture Used:
-![Blank diagram](https://github.com/user-attachments/assets/d072fe9a-133f-4340-97a9-9641657b8e18)
 
 # Components Used:
 1) Embedding LLM Model Used: Google-Gemini - "text-embedding-004"
