@@ -35,4 +35,5 @@ def evaluate_ragas_dataset():
     return result
 
 if __name__ == "__main__":
-    evaluate_ragas_dataset()
+    result = evaluate_ragas_dataset()
+    print(result)

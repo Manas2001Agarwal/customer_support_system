@@ -11,7 +11,7 @@ from langchain.retrievers.self_query.base import SelfQueryRetriever
 
 from dotenv import load_dotenv
 
-class Retriever:
+class Self_Query_Retriever:
     
     def __init__(self):
         self.model_loader=ModelLoader()
@@ -87,7 +87,7 @@ class Retriever:
         
     
 if __name__=='__main__':
-    retriever_obj = Retriever()
+    retriever_obj = Self_Query_Retriever()
     user_query = "Can you suggest me some laptops with ratings greater than 3?"
     results = retriever_obj.call_retriever(user_query)
 

@@ -12,7 +12,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 from langchain_core.prompts import ChatPromptTemplate
 
-from retriever.self_query_retrieval import Retriever
+from retriever.self_query_retrieval import Self_Query_Retriever
 
 from utils.model_loader import ModelLoader
 
@@ -37,13 +37,13 @@ app.add_middleware(
 
 load_dotenv()
 
-retriever_obj = Retriever()
+self_query_retriever_obj = Self_Query_Retriever()
 
 model_loader = ModelLoader()
 
 def invoke_chain(query:str):
     
-    retriever=retriever_obj.load_retriever()
+    retriever=self_query_retriever_obj.load_retriever()
     prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATES["product_bot"])
     llm= model_loader.load_llm()
     
