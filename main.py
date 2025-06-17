@@ -12,7 +12,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 from langchain_core.prompts import ChatPromptTemplate
 
-from retriever.retrieval import Retriever
+from retriever.self_query_retrieval import Retriever
 
 from utils.model_loader import ModelLoader
 
