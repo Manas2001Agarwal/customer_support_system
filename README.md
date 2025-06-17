@@ -17,4 +17,25 @@ Any User that comes over the website will have a chatbot (powered by RAG based a
 # Self Retriever Close Look
 ![SelfQueryRetriever](https://github.com/user-attachments/assets/f5afa352-6ac4-448f-bc9e-c3bcbe1bbd88)
 
-
+# How to Launch the project
+1) Clone the repo
+   - git clone https://github.com/your-username/your-repo-name.git
+   - cd customer_support_system
+2) Set Up Virtual Env
+   - Use Conda : conda create --name myenv python=3.9
+   - conda activate myenv
+3) Install Dependencies
+   - pip install -r requirements.txt
+4) Set up .env file with below token
+    - ASTRA_DB_API_ENDPOINT = 
+    - ASTRA_DB_APPLICATION_TOKEN = 
+    - ASTRA_DB_KEYSPACE = 
+    - GOOGLE_API_KEY = 
+    - HF_TOKEN = 
+    - GROQ_API_KEY = 
+    - PINECONE_API_KEY = 
+    - TAVILY_API_KEY = 
+5) Run main.py
+   - uvicorn main:app --reload --port 8001
+# Working Demo - Screenshot
+<img width="1205" alt="Screenshot 2025-06-18 at 1 43 36 AM" src="https://github.com/user-attachments/assets/f6933d6f-b1a8-42d3-a624-f56c34bcf7ee" />
