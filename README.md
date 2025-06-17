@@ -14,3 +14,7 @@ Any User that comes over the website will have a chatbot (powered by RAG based a
 3) Vector DB Used: Astra DB (provided by IBM)
 4) Retrieval Technique Used: Self Query Retrieval + Cross Encoder Reranking.
 
+# Self Retriever Close Look
+![SelfQueryRetriever](https://github.com/user-attachments/assets/f5afa352-6ac4-448f-bc9e-c3bcbe1bbd88)
+
+
