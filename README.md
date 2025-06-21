@@ -19,7 +19,7 @@ Any User that comes over the website will have a chatbot (powered by RAG based a
 
 # How to Launch the project
 1) Clone the repo
-   - git clone https://github.com/your-username/your-repo-name.git
+   - git clone https://github.com/Manas2001Agarwal/customer_support_system.git
    - cd customer_support_system
 2) Set Up Virtual Env
    - Use Conda : conda create --name myenv python=3.9
