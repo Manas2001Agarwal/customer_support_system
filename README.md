@@ -3,7 +3,7 @@ This is a Flipkart Product Assistant.
 Let's say we visit flipkart to search for Headphones (to buy a pair for yourself). We often read reviews and rating of the product and based on those feedback we decide whether to buy that product or not.
 
 To automate and simply this process we built a RAG based customer support chatbot.
-Any User that comes over the website will have a chatbot (powered by RAG based architecture running product information). He has to simply ask questions to that chatbot and go through bot concise-accurate bot response to have the best products based on user reviews and ratings.
+Any User that comes over the website will have a chatbot (powered by RAG based architecture running product on information). He has to simply ask questions to that chatbot and go through bot concise-accurate bot response to have the best products based on user reviews and ratings.
 
 # RAG Architecture Used:
 ![Blank diagram](https://github.com/user-attachments/assets/77f84e4b-aa2a-417c-bb02-ad50fdd36d14)
